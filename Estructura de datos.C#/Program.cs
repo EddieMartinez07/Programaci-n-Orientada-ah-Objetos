@@ -1,47 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 
 public class Program
 {
     public static void Main()
     {
-        string expression = "{7+(8*5)-[(9-7)+(4+1)]}";
-        bool isBalanced = IsBalanced(expression);
-        Console.WriteLine($"La expresión está balanceada: {isBalanced}");
+        int n = 3; // Número de discos
+        char source = 'A'; // Torre de origen
+        char auxiliary = 'B'; // Torre auxiliar
+        char destination = 'C'; // Torre destino
+
+        SolveHanoi(n, source, auxiliary, destination);
     }
 
-    public static bool IsBalanced(string expression)
+    public static void SolveHanoi(int n, char source, char auxiliary, char destination)
     {
-        Stack<char> stack = new Stack<char>();
-
-        foreach (char ch in expression)
+        if (n == 1)
         {
-            if (ch == '(' || ch == '{' || ch == '[')
-            {
-                stack.Push(ch);
-            }
-            else if (ch == ')' || ch == '}' || ch == ']')
-            {
-                if (stack.Count == 0)
-                {
-                    return false;
-                }
-
-                char top = stack.Pop();
-                if (!Matches(top, ch))
-                {
-                    return false;
-                }
-            }
+            Console.WriteLine($"Mover disco 1 desde {source} hasta {destination}");
+            return;
         }
 
-        return stack.Count == 0;
-    }
-
-    private static bool Matches(char open, char close)
-    {
-        return (open == '(' && close == ')') ||
-               (open == '{' && close == '}') ||
-               (open == '[' && close == ']');
+        SolveHanoi(n - 1, source, destination, auxiliary);
+        Console.WriteLine($"Mover disco {n} desde {source} hasta {destination}");
+        SolveHanoi(n - 1, auxiliary, source, destination);
     }
 }
